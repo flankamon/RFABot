@@ -1,4 +1,5 @@
-(function() {
+(function () {
+  var FortuneCookeSvc = {};
   var Command, RoomHelper, User, afkCheck, afksCommand, allAfksCommand, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, newSongsCommand, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, whyWootCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
@@ -365,6 +366,7 @@
     initHooks();
     data.startup();
     data.newSong();
+    FortuneCookeSvc.init();
     return data.startAfkInterval();
   };
 
@@ -1725,6 +1727,40 @@
     }
     return _results;
   };
+
+  FortuneCookeSvc = {
+    _username: null,
+    _message: null,
+    init: function() {
+      API.on(API.CHAT, this.fortuneCallback);
+
+      this._message = "Di gal dem cockup dem batty fi yuh!";
+      //$('#room').append('<div id="divFortuneSvc" style="BEHAVIOR: url(webservice.htc);" onresult="showFortune()"></div>');
+
+      //window.divFortuneSvc.useService(http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx, "GetFortuneCookie");
+    },
+    requestFortune: function(username) {
+      this._username = username;
+      //window.divFortuneSvc.GetFortuneCookie.callService();
+      this.showFortune();
+    },
+    showFortune: function() {
+      //API.sendChat(this._username + ": " + window.event.result.value);
+      API.sendChat(this._username + ": " + this._message);
+    },
+    fortuneCallback: function(data) {
+      if (!API.hasPermission(data.fromID, API.ROLE.RESIDENTDJ)) {
+        return;
+      }
+
+      var c = data.message;
+
+      if (c.indexOf(":8ball:") != -1) {
+        window.FortuneCookeSvc.requestFortune(data.from);
+      }
+    }
+  };
+  
 
   initialize();
 
