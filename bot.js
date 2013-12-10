@@ -1738,7 +1738,7 @@
       this._message = "Sorry mon - mi nuh hav nuttin fi yuh!";
       $('#room').append('<div id="divFortuneSvc" style="BEHAVIOR: url(webservice.htc);" onresult="FortuneCookeSvc.showFortune()"></div>');
 
-      window.divFortuneSvc.useService("http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx", "GetFortuneCookie");
+     $(window.divFortuneSvc).useService("http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx", "GetFortuneCookie");
     },
     checkFortuneRequest: function (chatData) {
       //if (!API.hasPermission(data.fromID, API.ROLE.RESIDENTDJ)) {
@@ -1747,7 +1747,7 @@
       if (chatData.message.indexOf(":8ball:") != -1) {
         this._chatData = chatData;
         //this.showFortune(chatData);
-        window.divFortuneSvc.GetFortuneCookie.callService();
+        $(window.divFortuneSvc).GetFortuneCookie.callService();
       }
     },
     showFortune: function () {
