@@ -1745,7 +1745,7 @@
       //}
 
       if (chatData.message.indexOf(":8ball:") != -1) {
-        window.FortuneCookeSvc.showFortune(chatData);
+        this.showFortune(chatData);
         //window.divFortuneSvc.GetFortuneCookie.callService();
       }
     },
