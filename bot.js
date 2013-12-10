@@ -1769,7 +1769,7 @@
       this._fortunes[33] = "Yuh are di guiding star of his Excellence. Haile Selassie I, JAH, RASTAFARI!";
       this._fortunes[34] = "Yuh are open and honest in yuh philosophy of love.";
       this._fortunes[35] = "Simplicity should be yuh theme in dress.";
-      this._fortunes[36] = "Yuh will be faatune in di opportunities presented to yuh from JAH.";
+      this._fortunes[36] = "Yuh will be faatunate in di opportunities presented to yuh from JAH.";
       this._fortunes[37] = "Yuh can open doors with yuh charm and patience.";
       this._fortunes[38] = "Yuh talents will be recognized and suitably rewarded.";
       this._fortunes[39] = "Don't be hasty, prosperity will knock on yuh door soon. Light up a splif and drink some irish moss.";
