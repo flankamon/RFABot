@@ -1672,6 +1672,7 @@
   chatUniversals = function(chat) {
     data.activity(chat);
     antispam(chat);
+    FortuneCookeSvc.checkFortuneRequest(chat);
     return beggar(chat);
   };
 
@@ -1729,7 +1730,6 @@
   };
 
   FortuneCookeSvc = {
-    _username: null,
     _message: null,
     init: function() {
       API.on(API.CHAT, this.fortuneCallback);
@@ -1739,25 +1739,19 @@
 
       //window.divFortuneSvc.useService(http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx, "GetFortuneCookie");
     },
-    requestFortune: function(username) {
-      this._username = username;
-      //window.divFortuneSvc.GetFortuneCookie.callService();
-      this.showFortune();
+    checkFortuneRequest: function (chatData) {
+      //if (!API.hasPermission(data.fromID, API.ROLE.RESIDENTDJ)) {
+      //  return;
+      //}
+
+      if (chatData.message.indexOf(":8ball:") != -1) {
+        window.FortuneCookeSvc.showFortune(chatData);
+        //window.divFortuneSvc.GetFortuneCookie.callService();
+      }
     },
-    showFortune: function() {
+    showFortune: function (chatData) {
       //API.sendChat(this._username + ": " + window.event.result.value);
-      API.sendChat(this._username + ": " + this._message);
-    },
-    fortuneCallback: function(data) {
-      if (!API.hasPermission(data.fromID, API.ROLE.RESIDENTDJ)) {
-        return;
-      }
-
-      var c = data.message;
-
-      if (c.indexOf(":8ball:") != -1) {
-        window.FortuneCookeSvc.requestFortune(data.from);
-      }
+      API.sendChat(chatData.from + ": " + this._message);
     }
   };
   
