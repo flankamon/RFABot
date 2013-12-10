@@ -1730,29 +1730,62 @@
   };
 
   FortuneCookeSvc = {
-    _message: null,
-    _chatData: null,
+    _fortuneLen: 40,
+    _fortunes: new Array(),
     init: function() {
-      //API.on(API.CHAT, this.fortuneCallback);
-
-      this._message = "Sorry mon - mi nuh hav nuttin fi yuh!";
-      $('#room').append('<div id="divFortuneSvc" style="BEHAVIOR: url(webservice.htc);" onresult="FortuneCookeSvc.showFortune()"></div>');
-
-     $(window.divFortuneSvc).useService("http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx", "GetFortuneCookie");
+      this._fortunes[0] = "Everything will now come your way.";
+      this._fortunes[1] = "Now is the time to try something new.";
+      this._fortunes[2] = "A handful of patience is worth more than a bushel of brains.";
+      this._fortunes[3] = "You have an active mind and a keen imagination.";
+      this._fortunes[4] = "Don't let doubt and suspicion bar your progress.";
+      this._fortunes[5] = "You will make a fortune with your friend.";
+      this._fortunes[6] = "Your emotional nature is strong and sensitive.";
+      this._fortunes[7] = "You will find a treasure at this web site.";
+      this._fortunes[8] = "Sing and rejoice, fortune is smiling on you.";
+      this._fortunes[9] = "You have remarkable power which you are not using.";
+      this._fortunes[10] = "Your venture will be a success.";
+      this._fortunes[11] = "Accept the next proposition you hear.";
+      this._fortunes[12] = "A cheerful letter or message is on its way to you.";
+      this._fortunes[13] = "You are just beginning to live.";
+      this._fortunes[14] = "Love is a roller coaster,<BR>it has its ups and downs.";
+      this._fortunes[15] = "You will find a treasure at this web site.";
+      this._fortunes[16] = "The great joy in life is doing what people say you cannot do.";
+      this._fortunes[17] = "You are a bundle of energy,<BR>always on the go.";
+      this._fortunes[18] = "Your dearest wish will come true.";
+      this._fortunes[19] = "You have at your command<BR>the wisdom of the ages.";
+      this._fortunes[20] = "You will travel to many places.";
+      this._fortunes[21] = "You are careful & systematic in your business arrangements.";
+      this._fortunes[22] = "To one who waits, a moment seems a year.";
+      this._fortunes[23] = "Your wisdom has kept you far away from danger.";
+      this._fortunes[24] = "You will have a fine capacity for the enjoyment of life.";
+      this._fortunes[25] = "You will reach the height of success in whatever you do.";
+      this._fortunes[26] = "Consolidate rather than expand your business in the near future.";
+      this._fortunes[27] = "Your principles mean more to you than any money or success.";
+      this._fortunes[28] = "You have a deep appreciation<BR>of the arts and music.";
+      this._fortunes[29] = "You display the wonderful traits of charm and courtesy.";
+      this._fortunes[30] = "You are talented in many ways.";
+      this._fortunes[31] = "Good fortune awaits you at the end of the day.";
+      this._fortunes[32] = "Treat everyone as a friend.";
+      this._fortunes[33] = "You are the guiding star of his existence.";
+      this._fortunes[34] = "You are open and honest in your philosophy of love.";
+      this._fortunes[35] = "Simplicity should be your theme in dress.";
+      this._fortunes[36] = "You will be fortunate in the opportunities presented to you.";
+      this._fortunes[37] = "You can open doors with your charm and patience.";
+      this._fortunes[38] = "Your talents will be recognized and suitably rewarded.";
+      this._fortunes[39] = "Don't be hasty, prosperity will knock on your door soon.";
     },
     checkFortuneRequest: function (chatData) {
-      //if (!API.hasPermission(data.fromID, API.ROLE.RESIDENTDJ)) {
-      //  return;
-      //}
       if (chatData.message.indexOf(":8ball:") != -1) {
         this._chatData = chatData;
-        //this.showFortune(chatData);
-        $(window.divFortuneSvc).GetFortuneCookie.callService();
+        var now = new Date();
+        var seed = now.getTime() % 0xffffffff;
+
+        seed = (0x015a4e35 * seed) % 0x7fffffff;
+        var random = (seed >> 16) % this._fortuneLen;
+
+        var fortune = this._fortunes[random];
+        API.sendChat(chatData.from + ": " + fortune);
       }
-    },
-    showFortune: function () {
-      API.sendChat(this._chatData.from + ": " + window.event.result.value);
-      //API.sendChat(this_.chatData.from + ": " + this._message);
     }
   };
   
