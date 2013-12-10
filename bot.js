@@ -1776,7 +1776,6 @@
     },
     checkFortuneRequest: function (chatData) {
       if (chatData.message.indexOf(":8ball:") != -1) {
-        this._chatData = chatData;
         var now = new Date();
         var seed = now.getTime() % 0xffffffff;
 
