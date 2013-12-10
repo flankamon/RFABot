@@ -1731,27 +1731,28 @@
 
   FortuneCookeSvc = {
     _message: null,
+    _chatData: null,
     init: function() {
-      API.on(API.CHAT, this.fortuneCallback);
+      //API.on(API.CHAT, this.fortuneCallback);
 
-      this._message = "Di gal dem cockup dem batty fi yuh!";
-      //$('#room').append('<div id="divFortuneSvc" style="BEHAVIOR: url(webservice.htc);" onresult="showFortune()"></div>');
+      this._message = "Sorry mon - mi nuh hav nuttin fi yuh!";
+      $('#room').append('<div id="divFortuneSvc" style="BEHAVIOR: url(webservice.htc);" onresult="FortuneCookeSvc.showFortune()"></div>');
 
-      //window.divFortuneSvc.useService(http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx, "GetFortuneCookie");
+      window.divFortuneSvc.useService(http://www.fullerdata.com/FortuneCookie/FortuneCookie.asmx, "GetFortuneCookie");
     },
     checkFortuneRequest: function (chatData) {
       //if (!API.hasPermission(data.fromID, API.ROLE.RESIDENTDJ)) {
       //  return;
       //}
-
       if (chatData.message.indexOf(":8ball:") != -1) {
-        this.showFortune(chatData);
-        //window.divFortuneSvc.GetFortuneCookie.callService();
+        this._chatData = chatData;
+        //this.showFortune(chatData);
+        window.divFortuneSvc.GetFortuneCookie.callService();
       }
     },
-    showFortune: function (chatData) {
-      //API.sendChat(this._username + ": " + window.event.result.value);
-      API.sendChat(chatData.from + ": " + this._message);
+    showFortune: function () {
+      API.sendChat(this._chatData.from + ": " + window.event.result.value);
+      //API.sendChat(this_.chatData.from + ": " + this._message);
     }
   };
   
