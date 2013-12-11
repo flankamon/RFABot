@@ -1602,7 +1602,7 @@
           _results.push(void 0);
         }
       } else {
-        console.log("bad cmd: " + i);
+        console.log("bad cmd: " + _i);
       }
     }
     return _results;
