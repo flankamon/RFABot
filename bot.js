@@ -568,6 +568,35 @@
 
   })();
   
+  //roomHelpCommand = (function (_super) {
+  //  __extends(roomHelpCommand, _super);
+
+  //  function roomHelpCommand() {
+  //    _ref5 = roomHelpCommand.__super__.constructor.apply(this, arguments);
+  //    return _ref5;
+  //  }
+
+  //  roomHelpCommand.prototype.init = function () {
+  //    this.command = '!roomhelp';
+  //    this.parseType = 'startsWith';
+  //    return this.rankPrivelege = 'user';
+  //  };
+
+  //  roomHelpCommand.prototype.functionality = function () {
+  //    var msg1, msg2;
+  //    msg1 = "Welcome to Reggae For All! ";
+  //    msg1 += "Click the 'Join Waitlist' button and wait your turn to play music. Most electronic music allowed, type '!theme' for specifics. ";
+  //    msg2 = "Stay active while waiting to play your song or I'll remove you. Play good quality music that hasn't been played recently (check room history).  ";
+  //    API.sendChat(msg1);
+  //    return setTimeout((function () {
+  //      return API.sendChat(msg2);
+  //    }), 750);
+  //  };
+
+  //  return roomHelpCommand;
+
+  //})(Command);
+
   cookieCommand = (function (_super) {
     __extends(cookieCommand, _super);
 
@@ -582,26 +611,28 @@
       return this.rankPrivelege = 'user';
     };
 
-    cookieCommand.prototype.getCookie = function () {
-      var c, cookies;
-      cookies = ["a chocolate chip cookie", "a sugar cookie", "an oatmeal raisin cookie", "a 'special' brownie", "an animal cracker", "a scooby snack", "a blueberry muffin", "a cupcake"];
-      c = Math.floor(Math.random() * cookies.length);
-      return cookies[c];
-    };
+    //cookieCommand.prototype.getCookie = function () {
+    //  var c, cookies;
+    //  cookies = ["a chocolate chip cookie", "a sugar cookie", "an oatmeal raisin cookie", "a 'special' brownie", "an animal cracker", "a scooby snack", "a blueberry muffin", "a cupcake"];
+    //  c = Math.floor(Math.random() * cookies.length);
+    //  return cookies[c];
+    //};
 
     cookieCommand.prototype.functionality = function () {
-      var msg, r, user;
-      msg = this.msgData.message;
-      r = new RoomHelper();
-      if (msg.substring(7, 8) === "@") {
-        user = r.lookupUser(msg.substr(8));
-        if (user === false) {
-          API.sendChat("/em doesn't see '" + msg.substr(8) + "' in room and eats cookie himself");
-          return false;
-        } else {
-          return API.sendChat("@" + user.username + ", @" + this.msgData.from + " has rewarded you with " + this.getCookie() + ". Enjoy.");
-        }
-      }
+      //var msg, r, user;
+      //msg = this.msgData.message;
+      //r = new RoomHelper();
+      //if (msg.substring(7, 8) === "@") {
+      //  user = r.lookupUser(msg.substr(8));
+      //  if (user === false) {
+      //    API.sendChat("/em doesn't see '" + msg.substr(8) + "' in room and eats cookie himself");
+      //    return false;
+      //  } else {
+      //    return API.sendChat("@" + user.username + ", @" + this.msgData.from + " has rewarded you with " + this.getCookie() + ". Enjoy.");
+      //  }
+      //}
+      
+      API.sendChat("a scooby snack?");
     };
 
     return cookieCommand;
