@@ -1559,12 +1559,12 @@
     __extends(fortuneCommand, _super);
 
     function fortuneCommand() {
-      _ref26 = fortuneCommand.__super__.constructor.apply(this, arguments);
-      return _ref26;
+      var ref = fortuneCommand.__super__.constructor.apply(this, arguments);
+      return ref;
     }
 
     fortuneCommand.prototype.init = function () {
-      this.command = ['/fortune'];
+      this.command = ['test'];
       this.parseType = 'exact';
       return this.rankPrivelege = 'user';
     };
