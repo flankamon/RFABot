@@ -611,28 +611,26 @@
       return this.rankPrivelege = 'user';
     };
 
-    //cookieCommand.prototype.getCookie = function () {
-    //  var c, cookies;
-    //  cookies = ["a chocolate chip cookie", "a sugar cookie", "an oatmeal raisin cookie", "a 'special' brownie", "an animal cracker", "a scooby snack", "a blueberry muffin", "a cupcake"];
-    //  c = Math.floor(Math.random() * cookies.length);
-    //  return cookies[c];
-    //};
+    cookieCommand.prototype.getCookie = function () {
+      var c, cookies;
+      cookies = ["a chocolate chip cookie", "a sugar cookie", "an oatmeal raisin cookie", "a 'special' brownie", "an animal cracker", "a scooby snack", "a blueberry muffin", "a cupcake"];
+      c = Math.floor(Math.random() * cookies.length);
+      return cookies[c];
+    };
 
     cookieCommand.prototype.functionality = function () {
       var msg, r, user;
       msg = this.msgData.message;
       r = new RoomHelper();
-      API.sendChat("...I sent you a message in the console, dude.");
-      console.log("msg: " + msg + " userLookup: " + r.lookupUser(msg.substr(8)));
-      //if (msg.substring(7, 8) === "@") {
-      //  user = r.lookupUser(msg.substr(8));
-      //  if (user === false) {
-      //    API.sendChat("/em doesn't see '" + msg.substr(8) + "' in room and eats cookie himself");
-      //    return false;
-      //  } else {
-      //    return API.sendChat("@" + user.username + ", @" + this.msgData.from + " has rewarded you with " + this.getCookie() + ". Enjoy.");
-      //  }
-      //}
+      if (msg.substring(7, 8) === "@") {
+        user = r.lookupUser(msg.substr(8));
+        if (user === false) {
+          API.sendChat("/em doesn't see '" + msg.substr(8) + "' in room and eats cookie himself");
+          return false;
+        } else {
+          return API.sendChat("@" + user.username + ", @" + this.msgData.from + " has rewarded you with " + this.getCookie() + ". Enjoy.");
+        }
+      }
     };
 
     return cookieCommand;
