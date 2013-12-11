@@ -1601,6 +1601,8 @@
         } else {
           _results.push(void 0);
         }
+      } else {
+        console.log("bad cmd: " + i);
       }
     }
     return _results;
