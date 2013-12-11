@@ -619,9 +619,11 @@
     //};
 
     cookieCommand.prototype.functionality = function () {
-      //var msg, r, user;
-      //msg = this.msgData.message;
-      //r = new RoomHelper();
+      var msg, r, user;
+      msg = this.msgData.message;
+      r = new RoomHelper();
+      API.sendChat("...I sent you a message in the console, dude.");
+      console.log("msg: " + msg + " userLookup: " + r.lookupUser(msg.substr(8)));
       //if (msg.substring(7, 8) === "@") {
       //  user = r.lookupUser(msg.substr(8));
       //  if (user === false) {
@@ -631,8 +633,6 @@
       //    return API.sendChat("@" + user.username + ", @" + this.msgData.from + " has rewarded you with " + this.getCookie() + ". Enjoy.");
       //  }
       //}
-      
-      API.sendChat("a scooby snack?");
     };
 
     return cookieCommand;
