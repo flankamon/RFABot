@@ -1385,6 +1385,8 @@
               }
             }
           }
+        } else {
+          console.log("Bad cmd or missing function definition: index: " + _i + " name: " + cmd);
         }
       }
       msg = msg.substring(0, msg.length - 2);
@@ -1602,7 +1604,7 @@
           _results.push(void 0);
         }
       } else {
-        console.log("bad cmd: " + _i);
+        console.log("Bad cmd or missing function definition: index: " + _i + " name: " + cmd);
       }
     }
     return _results;
@@ -1814,4 +1816,3 @@
   initialize();
 
 }).call(this);
- 
