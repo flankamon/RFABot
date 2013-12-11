@@ -1698,7 +1698,6 @@
   chatUniversals = function (chat) {
     data.activity(chat);
     antispam(chat);
-    RastaFortuneSvc.checkFortuneRequest(chat);
     return beggar(chat);
   };
 
@@ -1791,7 +1790,7 @@
       this._fortunes[29] = "Yuh display di wonderful traits of charm and courtesy.";
       this._fortunes[30] = "Yuh talented in many ways.";
       this._fortunes[31] = "Good faatune awaits yuh at di end of di day. Chill out and smoke a spliff.";
-      this._fortunes[32] = "Treat everyone as a bredren ar a daughta.";
+      this._fortunes[32] = "Treat everyone as a bredren or a daughta.";
       this._fortunes[33] = "Yuh are di guiding star of his Excellence. Haile Selassie I, JAH, RASTAFARI!";
       this._fortunes[34] = "Yuh are open and honest in yuh philosophy of love.";
       this._fortunes[35] = "Simplicity should be yuh theme in dress.";
