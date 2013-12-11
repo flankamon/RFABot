@@ -1568,7 +1568,7 @@
     }
 
     fortuneCommand.prototype.init = function () {
-      this.command = ['!test'];
+      this.command = ['!fortune'];
       this.parseType = 'startsWith';
       return this.rankPrivelege = 'user';
     };
