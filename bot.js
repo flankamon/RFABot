@@ -1568,12 +1568,15 @@
     }
 
     fortuneCommand.prototype.init = function () {
-      this.command = ['!fortune'];
+      this.command = ['/fortune'];
       this.parseType = 'startsWith';
       return this.rankPrivelege = 'user';
     };
 
     fortuneCommand.prototype.functionality = function () {
+      console.log("fortuneLen: " + RastaFortuneSvc.fortuneLen);
+      console.log("fortunes len: " + RastaFortuneSvc.fortunes.length);
+      
       var now = new Date();
       var seed = now.getTime() % 0xffffffff;
 
