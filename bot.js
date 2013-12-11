@@ -1,6 +1,6 @@
 (function () {
   var RastaFortuneSvc = {};
-  var Command, RoomHelper, User, afkCheck, allAfksCommand, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, newSongsCommand, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, whyWootCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, fortuneCommand,
+  var Command, RoomHelper, User, allAfksCommand, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, fortuneCommand,
     __bind = function (fn, me) { return function () { return fn.apply(me, arguments); }; },
     __indexOf = [].indexOf || function (item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __hasProp = {}.hasOwnProperty,
@@ -116,10 +116,6 @@
       if (obj.type === 'message') {
         return this.users[obj.fromID].updateActivity();
       }
-    };
-
-    settings.prototype.startAfkInterval = function () {
-      return this.afkInterval = setInterval(afkCheck, 2000);
     };
 
     settings.prototype.intervalMessages = function () {
@@ -366,63 +362,7 @@
     RastaFortuneSvc.init();
     return data.startAfkInterval();
   };
-
-  afkCheck = function () {
-    var id, lastActivity, lastWarned, now, oneMinute, secsLastActive, timeSinceLastActivity, timeSinceLastWarning, twoMinutes, user, warnMsg, _ref, _results;
-    _ref = data.users;
-    _results = [];
-    for (id in _ref) {
-      user = _ref[id];
-      now = new Date();
-      lastActivity = user.getLastActivity();
-      timeSinceLastActivity = now.getTime() - lastActivity.getTime();
-      if (timeSinceLastActivity > data.afkTime) {
-        if (user.getIsDj()) {
-          secsLastActive = timeSinceLastActivity / 1000;
-          if (user.getWarningCount() === 0) {
-            user.warn();
-            _results.push(API.sendChat("@" + user.getUser().username + ", I haven't seen you chat or vote in at least 12 minutes. Are you AFK?  If you don't show activity in 2 minutes I will remove you."));
-          } else if (user.getWarningCount() === 1) {
-            lastWarned = user.getLastWarning();
-            timeSinceLastWarning = now.getTime() - lastWarned.getTime();
-            twoMinutes = 2 * 60 * 1000;
-            if (timeSinceLastWarning > twoMinutes) {
-              user.warn();
-              warnMsg = "@" + user.getUser().username;
-              warnMsg += ", I haven't seen you chat or vote in at least 14 minutes now.  This is your second and FINAL warning.  If you do not chat or vote in the next minute I will remove you.";
-              _results.push(API.sendChat(warnMsg));
-            } else {
-              _results.push(void 0);
-            }
-          } else if (user.getWarningCount() === 2) {
-            lastWarned = user.getLastWarning();
-            timeSinceLastWarning = now.getTime() - lastWarned.getTime();
-            oneMinute = 1 * 60 * 1000;
-            if (timeSinceLastWarning > oneMinute) {
-              var currentDj = API.getDJ();
-              if (currentDj != null && currentDj.id !== user.getUser().id) {
-                API.sendChat("@" + user.getUser().username + ", you had 2 warnings. Please stay active by chatting or voting.");
-                API.moderateRemoveDJ(id);
-                _results.push(user.warn());
-              } else {
-                _results.push(void 0);
-              }
-            } else {
-              _results.push(void 0);
-            }
-          } else {
-            _results.push(void 0);
-          }
-        } else {
-          _results.push(user.notDj());
-        }
-      } else {
-        _results.push(void 0);
-      }
-    }
-    return _results;
-  };
-
+  
   msToStr = function (msTime) {
     var ms, msg, timeAway;
     msg = '';
@@ -605,65 +545,6 @@
 
   })(Command);
 
-  newSongsCommand = (function (_super) {
-    __extends(newSongsCommand, _super);
-
-    function newSongsCommand() {
-      _ref1 = newSongsCommand.__super__.constructor.apply(this, arguments);
-      return _ref1;
-    }
-
-    newSongsCommand.prototype.init = function () {
-      this.command = '!newsongs';
-      this.parseType = 'startsWith';
-      return this.rankPrivelege = 'user';
-    };
-
-    newSongsCommand.prototype.functionality = function () {
-      var arts, cMedia, chans, chooseRandom, mChans, msg, selections, u, _ref2;
-      mChans = this.memberChannels.slice(0);
-      chans = this.channels.slice(0);
-      arts = this.artists.slice(0);
-      chooseRandom = function (list) {
-        var l, r;
-        l = list.length;
-        r = Math.floor(Math.random() * l);
-        return list.splice(r, 1);
-      };
-      selections = {
-        channels: [],
-        artist: ''
-      };
-      u = data.users[this.msgData.fromID].getUser().username;
-      if (u.indexOf("MistaDubstep") !== -1) {
-        selections['channels'].push('MistaDubstep');
-      } else if (u.indexOf("Underground Promotions") !== -1) {
-        selections['channels'].push('UndergroundDubstep');
-      } else {
-        selections['channels'].push(chooseRandom(mChans));
-      }
-      selections['channels'].push(chooseRandom(chans));
-      selections['channels'].push(chooseRandom(chans));
-      cMedia = API.getMedia();
-      if ((cMedia != null) && (_ref2 = cMedia.author, __indexOf.call(arts, _ref2) >= 0)) {
-        selections['artist'] = cMedia.author;
-      } else {
-        selections['artist'] = chooseRandom(arts);
-      }
-      msg = "Everyone's heard that " + selections['artist'] + " track! Get new music from http://youtube.com/" + selections['channels'][0] + " http://youtube.com/" + selections['channels'][1] + " or http://youtube.com/" + selections['channels'][2];
-      return API.sendChat(msg);
-    };
-
-    newSongsCommand.prototype.memberChannels = ["JitterStep", "MistaDubstep", "DubStationPromotions", "UndergroundDubstep", "JesusDied4Dubstep", "DarkstepWarrior", "BombshockDubstep", "Sharestep"];
-
-    newSongsCommand.prototype.channels = ["BassRape", "Mudstep", "WobbleCraftDubz", "MonstercatMedia", "UKFdubstep", "DropThatBassline", "Dubstep", "VitalDubstep", "AirwaveDubstepTV", "EpicNetworkMusic", "NoOffenseDubstep", "InspectorDubplate", "ReptileDubstep", "MrMoMDubstep", "FrixionNetwork", "IcyDubstep", "DubstepWeed", "VhileMusic", "LessThan3Dubstep", "PleaseMindTheDUBstep", "ClownDubstep", "TheULTRADUBSTEP", "DuBM0nkeyz", "DubNationUK", "TehDubstepChannel", "BassDropMedia", "USdubstep", "UNITEDubstep"];
-
-    newSongsCommand.prototype.artists = ["Skrillex", "Doctor P", "Excision", "Flux Pavilion", "Knife Party", "Krewella", "Rusko", "Bassnectar", "Nero", "Deadmau5", "Borgore", "Zomboy"];
-
-    return newSongsCommand;
-
-  })(Command);
-
   whyWootCommand = (function (_super) {
     __extends(whyWootCommand, _super);
 
@@ -760,7 +641,7 @@
     roomHelpCommand.prototype.functionality = function () {
       var msg1, msg2;
       msg1 = "Welcome to Reggae For All! ";
-      msg1 += "Click the 'Join Waitlist' button and wait your turn to play music. Most electronic music allowed, type '!theme' for specifics. ";
+      msg1 += "Click the 'Join Waitlist' button and wait your turn to play music. Type '!theme' for specifics. ";
       msg2 = "Stay active while waiting to play your song or I'll remove you. Play good quality music that hasn't been played recently (check room history).  ";
       API.sendChat(msg1);
       return setTimeout((function () {
@@ -1335,7 +1216,7 @@
     whyMehCommand.prototype.functionality = function () {
       var msg;
       msg = "Reserve Mehs for songs that are a) extremely overplayed b) off genre c) absolutely god awful or d) troll songs. ";
-      msg += "If you simply aren't feeling a song, then remain neutral";
+      msg += "If you simply aren't feeling a song, then remain neutral...and SOJA shit.";
       return API.sendChat(msg);
     };
 
@@ -1558,7 +1439,7 @@
     return avgVoteRatioCommand;
 
   })(Command);
-  
+
   fortuneCommand = (function (_super) {
     __extends(fortuneCommand, _super);
 
@@ -1577,12 +1458,12 @@
       var fortune = RastaFortuneSvc.getFortune();
       return API.sendChat(fortune);
     };
-    
+
     return fortuneCommand;
-    
+
   })(Command);
 
-  cmds = [cookieCommand, newSongsCommand, whyWootCommand, themeCommand, rulesCommand, roomHelpCommand, sourceCommand, wootCommand, badQualityCommand, downloadCommand, allAfksCommand, statusCommand, unhookCommand, dieCommand, reloadCommand, lockCommand, unlockCommand, swapCommand, popCommand, pushCommand, overplayedCommand, uservoiceCommand, whyMehCommand, skipCommand, commandsCommand, resetAfkCommand, forceSkipCommand, disconnectLookupCommand, voteRatioCommand, avgVoteRatioCommand, fortuneCommand];
+  cmds = [cookieCommand, themeCommand, rulesCommand, roomHelpCommand, sourceCommand, wootCommand, badQualityCommand, downloadCommand, allAfksCommand, statusCommand, unhookCommand, dieCommand, reloadCommand, lockCommand, unlockCommand, swapCommand, popCommand, pushCommand, overplayedCommand, uservoiceCommand, whyMehCommand, skipCommand, commandsCommand, resetAfkCommand, forceSkipCommand, disconnectLookupCommand, voteRatioCommand, avgVoteRatioCommand, fortuneCommand];
 
   chatCommandDispatcher = function (chat) {
     var c, cmd, _i, _len, _results;
@@ -1810,7 +1691,7 @@
 
       return this._fortunes[random];
     }
-    
+
   };
 
   initialize();
