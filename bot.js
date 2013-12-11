@@ -1568,21 +1568,20 @@
     }
 
     fortuneCommand.prototype.init = function () {
-      this.command = ['!testes'];
+      this.command = ['!fortune'];
       this.parseType = 'startsWith';
       return this.rankPrivelege = 'user';
     };
 
     fortuneCommand.prototype.functionality = function () {
-      API.sendChat("gwaan wit yuh test bwoy!");
-      //var now = new Date();
-      //var seed = now.getTime() % 0xffffffff;
+      var now = new Date();
+      var seed = now.getTime() % 0xffffffff;
 
-      //seed = (0x015a4e35 * seed) % 0x7fffffff;
-      //var random = (seed >> 16) % RastaFortuneSvc.fortuneLen;
+      seed = (0x015a4e35 * seed) % 0x7fffffff;
+      var random = (seed >> 16) % RastaFortuneSvc.fortuneLen;
 
-      //var fortune = RastaFortuneSvc.fortunes[random];
-      //API.sendChat(fortune);
+      var fortune = RastaFortuneSvc.fortunes[random];
+      API.sendChat(fortune);
     };
     
     return fortuneCommand;
