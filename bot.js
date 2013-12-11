@@ -1372,15 +1372,17 @@
       msg = '';
       for (_i = 0, _len = cmds.length; _i < _len; _i++) {
         cmd = cmds[_i];
-        c = new cmd('');
-        if (_ref28 = c.rankPrivelege, __indexOf.call(allowedUserLevels, _ref28) >= 0) {
-          if (typeof c.command === "string") {
-            msg += c.command + ', ';
-          } else if (typeof c.command === "object") {
-            _ref29 = c.command;
-            for (_j = 0, _len1 = _ref29.length; _j < _len1; _j++) {
-              cc = _ref29[_j];
-              msg += cc + ', ';
+        if (cmd) {
+          c = new cmd('');
+          if (_ref28 = c.rankPrivelege, __indexOf.call(allowedUserLevels, _ref28) >= 0) {
+            if (typeof c.command === "string") {
+              msg += c.command + ', ';
+            } else if (typeof c.command === "object") {
+              _ref29 = c.command;
+              for (_j = 0, _len1 = _ref29.length; _j < _len1; _j++) {
+                cc = _ref29[_j];
+                msg += cc + ', ';
+              }
             }
           }
         }
@@ -1592,11 +1594,13 @@
     _results = [];
     for (_i = 0, _len = cmds.length; _i < _len; _i++) {
       cmd = cmds[_i];
-      c = new cmd(chat);
-      if (c.evalMsg()) {
-        break;
-      } else {
-        _results.push(void 0);
+      if (cmd) {
+        c = new cmd(chat);
+        if (c.evalMsg()) {
+          break;
+        } else {
+          _results.push(void 0);
+        }
       }
     }
     return _results;
