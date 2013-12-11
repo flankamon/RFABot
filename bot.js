@@ -1568,7 +1568,7 @@
     }
 
     fortuneCommand.prototype.init = function () {
-      this.command = ['!testes'];
+      this.command = ['!fortune'];
       this.parseType = 'startsWith';
       return this.rankPrivelege = 'user';
     };
@@ -1581,7 +1581,7 @@
       var random = (seed >> 16) % RastaFortuneSvc.fortuneLen;
 
       var fortune = RastaFortuneSvc.fortunes[random];
-      API.sendChat(fortune);
+      return API.sendChat(fortune);
     };
     
     return fortuneCommand;
