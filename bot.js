@@ -1,6 +1,6 @@
 (function () {
   var RastaFortuneSvc = {};
-  var Command, RoomHelper, User, allAfksCommand, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, fortuneCommand,
+  var Command, RoomHelper, User, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, newSongsCommand, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, whyWootCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, fortuneCommand,
     __bind = function (fn, me) { return function () { return fn.apply(me, arguments); }; },
     __indexOf = [].indexOf || function (item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __hasProp = {}.hasOwnProperty,
@@ -10,7 +10,7 @@
     function settings() {
       this.implode = __bind(this.implode, this);
       this.intervalMessages = __bind(this.intervalMessages, this);
-      this.startAfkInterval = __bind(this.startAfkInterval, this);
+      //this.startAfkInterval = __bind(this.startAfkInterval, this);
       this.setInternalWaitlist = __bind(this.setInternalWaitlist, this);
       this.userJoin = __bind(this.userJoin, this);
       this.getRoomUrlPath = __bind(this.getRoomUrlPath, this);
@@ -117,7 +117,7 @@
         return this.users[obj.fromID].updateActivity();
       }
     };
-
+    
     settings.prototype.intervalMessages = function () {
       var msg, _i, _len, _ref, _results;
       this.songCount++;
@@ -360,7 +360,7 @@
     data.startup();
     data.newSong();
     RastaFortuneSvc.init();
-    return data.startAfkInterval();
+    //return data.startAfkInterval();
   };
   
   msToStr = function (msTime) {
@@ -545,6 +545,65 @@
 
   })(Command);
 
+  newSongsCommand = (function (_super) {
+    __extends(newSongsCommand, _super);
+
+    function newSongsCommand() {
+      _ref1 = newSongsCommand.__super__.constructor.apply(this, arguments);
+      return _ref1;
+    }
+
+    newSongsCommand.prototype.init = function () {
+      this.command = '!newsongs';
+      this.parseType = 'startsWith';
+      return this.rankPrivelege = 'user';
+    };
+
+    newSongsCommand.prototype.functionality = function () {
+      var arts, cMedia, chans, chooseRandom, mChans, msg, selections, u, _ref2;
+      mChans = this.memberChannels.slice(0);
+      chans = this.channels.slice(0);
+      arts = this.artists.slice(0);
+      chooseRandom = function (list) {
+        var l, r;
+        l = list.length;
+        r = Math.floor(Math.random() * l);
+        return list.splice(r, 1);
+      };
+      selections = {
+        channels: [],
+        artist: ''
+      };
+      u = data.users[this.msgData.fromID].getUser().username;
+      if (u.indexOf("MistaDubstep") !== -1) {
+        selections['channels'].push('MistaDubstep');
+      } else if (u.indexOf("Underground Promotions") !== -1) {
+        selections['channels'].push('UndergroundDubstep');
+      } else {
+        selections['channels'].push(chooseRandom(mChans));
+      }
+      selections['channels'].push(chooseRandom(chans));
+      selections['channels'].push(chooseRandom(chans));
+      cMedia = API.getMedia();
+      if ((cMedia != null) && (_ref2 = cMedia.author, __indexOf.call(arts, _ref2) >= 0)) {
+        selections['artist'] = cMedia.author;
+      } else {
+        selections['artist'] = chooseRandom(arts);
+      }
+      msg = "Everyone's heard that " + selections['artist'] + " track! Get new music from http://youtube.com/" + selections['channels'][0] + " http://youtube.com/" + selections['channels'][1] + " or http://youtube.com/" + selections['channels'][2];
+      return API.sendChat(msg);
+    };
+
+    newSongsCommand.prototype.memberChannels = ["JitterStep", "MistaDubstep", "DubStationPromotions", "UndergroundDubstep", "JesusDied4Dubstep", "DarkstepWarrior", "BombshockDubstep", "Sharestep"];
+
+    newSongsCommand.prototype.channels = ["BassRape", "Mudstep", "WobbleCraftDubz", "MonstercatMedia", "UKFdubstep", "DropThatBassline", "Dubstep", "VitalDubstep", "AirwaveDubstepTV", "EpicNetworkMusic", "NoOffenseDubstep", "InspectorDubplate", "ReptileDubstep", "MrMoMDubstep", "FrixionNetwork", "IcyDubstep", "DubstepWeed", "VhileMusic", "LessThan3Dubstep", "PleaseMindTheDUBstep", "ClownDubstep", "TheULTRADUBSTEP", "DuBM0nkeyz", "DubNationUK", "TehDubstepChannel", "BassDropMedia", "USdubstep", "UNITEDubstep"];
+
+    newSongsCommand.prototype.artists = ["Skrillex", "Doctor P", "Excision", "Flux Pavilion", "Knife Party", "Krewella", "Rusko", "Bassnectar", "Nero", "Deadmau5", "Borgore", "Zomboy"];
+
+    return newSongsCommand;
+
+  })(Command);
+
   whyWootCommand = (function (_super) {
     __extends(whyWootCommand, _super);
 
@@ -641,7 +700,7 @@
     roomHelpCommand.prototype.functionality = function () {
       var msg1, msg2;
       msg1 = "Welcome to Reggae For All! ";
-      msg1 += "Click the 'Join Waitlist' button and wait your turn to play music. Type '!theme' for specifics. ";
+      msg1 += "Click the 'Join Waitlist' button and wait your turn to play music. Most electronic music allowed, type '!theme' for specifics. ";
       msg2 = "Stay active while waiting to play your song or I'll remove you. Play good quality music that hasn't been played recently (check room history).  ";
       API.sendChat(msg1);
       return setTimeout((function () {
@@ -758,46 +817,6 @@
     };
 
     return downloadCommand;
-
-  })(Command);
-
-  allAfksCommand = (function (_super) {
-    __extends(allAfksCommand, _super);
-
-    function allAfksCommand() {
-      _ref11 = allAfksCommand.__super__.constructor.apply(this, arguments);
-      return _ref11;
-    }
-
-    allAfksCommand.prototype.init = function () {
-      this.command = '!allafks';
-      this.parseType = 'exact';
-      return this.rankPrivelege = 'user';
-    };
-
-    allAfksCommand.prototype.functionality = function () {
-      var msg, now, u, uAfk, usrs, _i, _len;
-      msg = '';
-      usrs = API.getUsers();
-      for (_i = 0, _len = usrs.length; _i < _len; _i++) {
-        u = usrs[_i];
-        now = new Date();
-        uAfk = now.getTime() - data.users[u.id].getLastActivity().getTime();
-        if (uAfk > (10 * 60 * 1000)) {
-          if (msToStr(uAfk) !== false) {
-            msg += u.username + ' - ' + msToStr(uAfk);
-            msg += '. ';
-          }
-        }
-      }
-      if (msg === '') {
-        return API.sendChat("No one is AFK");
-      } else {
-        return API.sendChat('AFKs: ' + msg);
-      }
-    };
-
-    return allAfksCommand;
 
   })(Command);
 
@@ -1216,7 +1235,7 @@
     whyMehCommand.prototype.functionality = function () {
       var msg;
       msg = "Reserve Mehs for songs that are a) extremely overplayed b) off genre c) absolutely god awful or d) troll songs. ";
-      msg += "If you simply aren't feeling a song, then remain neutral...and SOJA shit.";
+      msg += "If you simply aren't feeling a song, then remain neutral";
       return API.sendChat(msg);
     };
 
@@ -1463,7 +1482,7 @@
 
   })(Command);
 
-  cmds = [cookieCommand, themeCommand, rulesCommand, roomHelpCommand, sourceCommand, wootCommand, badQualityCommand, downloadCommand, allAfksCommand, statusCommand, unhookCommand, dieCommand, reloadCommand, lockCommand, unlockCommand, swapCommand, popCommand, pushCommand, overplayedCommand, uservoiceCommand, whyMehCommand, skipCommand, commandsCommand, resetAfkCommand, forceSkipCommand, disconnectLookupCommand, voteRatioCommand, avgVoteRatioCommand, fortuneCommand];
+  cmds = [cookieCommand, newSongsCommand, whyWootCommand, themeCommand, rulesCommand, roomHelpCommand, sourceCommand, wootCommand, badQualityCommand, downloadCommand, statusCommand, unhookCommand, dieCommand, reloadCommand, lockCommand, unlockCommand, swapCommand, popCommand, pushCommand, overplayedCommand, uservoiceCommand, whyMehCommand, skipCommand, commandsCommand, resetAfkCommand, forceSkipCommand, disconnectLookupCommand, voteRatioCommand, avgVoteRatioCommand, fortuneCommand];
 
   chatCommandDispatcher = function (chat) {
     var c, cmd, _i, _len, _results;
