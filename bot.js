@@ -1811,7 +1811,7 @@
       this._fortunes[39] = "Don't be hasty, prosperity will knock on yuh door soon. Light up a splif and drink some irish moss.";
     },
     fortunes: function () {
-      return this._fortunes;
+      return RastaFortuneSvc._fortunes;
     }
     
   };
