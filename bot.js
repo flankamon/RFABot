@@ -1574,16 +1574,7 @@
     };
 
     fortuneCommand.prototype.functionality = function () {
-      console.log("fortuneLen: " + RastaFortuneSvc.fortuneLen);
-      console.log("fortunes len: " + RastaFortuneSvc.fortunes.length);
-      
-      var now = new Date();
-      var seed = now.getTime() % 0xffffffff;
-
-      seed = (0x015a4e35 * seed) % 0x7fffffff;
-      var random = (seed >> 16) % RastaFortuneSvc.fortuneLen;
-
-      var fortune = RastaFortuneSvc.fortunes[random];
+      var fortune = RastaFortuneSvc.getFortune();
       return API.sendChat(fortune);
     };
     
@@ -1766,8 +1757,8 @@
   };
 
   RastaFortuneSvc = {
+    _fortuneLen: 40,
     _fortunes: new Array(),
-    fortuneLen: 40,
     init: function () {
       this._fortunes[0] = "Everyting will come yuh way mon.";
       this._fortunes[1] = "Now is di time to try someting new.";
@@ -1810,8 +1801,14 @@
       this._fortunes[38] = "Yuh talents will be recognized and suitably rewarded.";
       this._fortunes[39] = "Don't be hasty, prosperity will knock on yuh door soon. Light up a splif and drink some irish moss.";
     },
-    fortunes: function () {
-      return RastaFortuneSvc._fortunes;
+    getFortune: function () {
+      var now = new Date();
+      var seed = now.getTime() % 0xffffffff;
+
+      seed = (0x015a4e35 * seed) % 0x7fffffff;
+      var random = (seed >> 16) % this._fortuneLen;
+
+      return this._fortunes[random];
     }
     
   };
