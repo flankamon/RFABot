@@ -1,6 +1,6 @@
 (function () {
   var RastaFortuneSvc = {};
-  var Command, RoomHelper, User, afkCheck, afksCommand, allAfksCommand, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, newSongsCommand, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, whyWootCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
+  var Command, RoomHelper, User, afkCheck, afksCommand, allAfksCommand, announceCurate, antispam, apiHooks, avgVoteRatioCommand, badQualityCommand, beggar, chatCommandDispatcher, chatUniversals, cmds, commandsCommand, cookieCommand, data, dieCommand, disconnectLookupCommand, downloadCommand, forceSkipCommand, handleNewSong, handleUserJoin, handleUserLeave, handleVote, hook, initEnvironment, initHooks, initialize, lockCommand, msToStr, newSongsCommand, overplayedCommand, popCommand, populateUserData, pupOnline, pushCommand, reloadCommand, resetAfkCommand, roomHelpCommand, rulesCommand, settings, skipCommand, sourceCommand, statusCommand, swapCommand, themeCommand, undoHooks, unhook, unhookCommand, unlockCommand, updateVotes, uservoiceCommand, voteRatioCommand, whyMehCommand, whyWootCommand, wootCommand, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, fortuneCommand,
     __bind = function (fn, me) { return function () { return fn.apply(me, arguments); }; },
     __indexOf = [].indexOf || function (item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __hasProp = {}.hasOwnProperty,
@@ -267,15 +267,12 @@
     };
 
     User.prototype.getIsDj = function () {
-      var DJs, dj, _i, _len;
-      DJs = API.getDJs();
-      for (_i = 0, _len = DJs.length; _i < _len; _i++) {
-        dj = DJs[_i];
-        if (this.user.id === dj.id) {
-          return true;
-        }
+      var isDj = false;
+      var dj = API.getDJ();
+      if (dj) {
+        isDj = this.user.id === this.user.id;
       }
-      return false;
+      return isDj;
     };
 
     User.prototype.warn = function () {
@@ -371,7 +368,7 @@
   };
 
   afkCheck = function () {
-    var DJs, id, lastActivity, lastWarned, now, oneMinute, secsLastActive, timeSinceLastActivity, timeSinceLastWarning, twoMinutes, user, warnMsg, _ref, _results;
+    var id, lastActivity, lastWarned, now, oneMinute, secsLastActive, timeSinceLastActivity, timeSinceLastWarning, twoMinutes, user, warnMsg, _ref, _results;
     _ref = data.users;
     _results = [];
     for (id in _ref) {
@@ -402,8 +399,8 @@
             timeSinceLastWarning = now.getTime() - lastWarned.getTime();
             oneMinute = 1 * 60 * 1000;
             if (timeSinceLastWarning > oneMinute) {
-              DJs = API.getDJs();
-              if (DJs.length > 0 && DJs[0].id !== user.getUser().id) {
+              var currentDj = API.getDJ();
+              if (currentDj != null && currentDj.id !== user.getUser().id) {
                 API.sendChat("@" + user.getUser().username + ", you had 2 warnings. Please stay active by chatting or voting.");
                 API.moderateRemoveDJ(id);
                 _results.push(user.warn());
@@ -567,35 +564,6 @@
     return Command;
 
   })();
-  
-  //roomHelpCommand = (function (_super) {
-  //  __extends(roomHelpCommand, _super);
-
-  //  function roomHelpCommand() {
-  //    _ref5 = roomHelpCommand.__super__.constructor.apply(this, arguments);
-  //    return _ref5;
-  //  }
-
-  //  roomHelpCommand.prototype.init = function () {
-  //    this.command = '!roomhelp';
-  //    this.parseType = 'startsWith';
-  //    return this.rankPrivelege = 'user';
-  //  };
-
-  //  roomHelpCommand.prototype.functionality = function () {
-  //    var msg1, msg2;
-  //    msg1 = "Welcome to Reggae For All! ";
-  //    msg1 += "Click the 'Join Waitlist' button and wait your turn to play music. Most electronic music allowed, type '!theme' for specifics. ";
-  //    msg2 = "Stay active while waiting to play your song or I'll remove you. Play good quality music that hasn't been played recently (check room history).  ";
-  //    API.sendChat(msg1);
-  //    return setTimeout((function () {
-  //      return API.sendChat(msg2);
-  //    }), 750);
-  //  };
-
-  //  return roomHelpCommand;
-
-  //})(Command);
 
   cookieCommand = (function (_super) {
     __extends(cookieCommand, _super);
@@ -608,7 +576,7 @@
     cookieCommand.prototype.init = function () {
       this.command = 'cookie';
       this.parseType = 'startsWith';
-      return this.rankPrivelege = 'user';
+      return this.rankPrivelege = 'mod';
     };
 
     cookieCommand.prototype.getCookie = function () {
@@ -1170,9 +1138,9 @@
     };
 
     popCommand.prototype.functionality = function () {
-      var djs, popDj;
-      djs = API.getDJs();
-      popDj = djs[djs.length - 1];
+      var waitList, popDj;
+      waitList = API.getWaitList();
+      popDj = waitList[waitList.length - 1];
       return API.moderateRemoveDJ(popDj.id);
     };
 
@@ -1586,8 +1554,37 @@
     return avgVoteRatioCommand;
 
   })(Command);
+  
+  fortuneCommand = (function (_super) {
+    __extends(fortuneCommand, _super);
 
-  cmds = [cookieCommand, newSongsCommand, whyWootCommand, themeCommand, rulesCommand, roomHelpCommand, sourceCommand, wootCommand, badQualityCommand, downloadCommand, afksCommand, allAfksCommand, statusCommand, unhookCommand, dieCommand, reloadCommand, lockCommand, unlockCommand, swapCommand, popCommand, pushCommand, overplayedCommand, uservoiceCommand, whyMehCommand, skipCommand, commandsCommand, resetAfkCommand, forceSkipCommand, disconnectLookupCommand, voteRatioCommand, avgVoteRatioCommand];
+    function fortuneCommand() {
+      _ref26 = fortuneCommand.__super__.constructor.apply(this, arguments);
+      return _ref26;
+    }
+
+    fortuneCommand.prototype.init = function () {
+      this.command = ['!fortune', ':8ball:'];
+      this.parseType = 'exact';
+      return this.rankPrivelege = 'user';
+    };
+
+    fortuneCommand.prototype.functionality = function() {
+      var now = new Date();
+      var seed = now.getTime() % 0xffffffff;
+
+      seed = (0x015a4e35 * seed) % 0x7fffffff;
+      var random = (seed >> 16) % RastaFortuneSvc.fortuneLen;
+
+      var fortune = RastaFortuneSvc.fortunes[random];
+      API.sendChat(fortune);
+    };
+    
+    return fortuneCommand;
+    
+  })(Command);
+
+  cmds = [cookieCommand, newSongsCommand, whyWootCommand, themeCommand, rulesCommand, roomHelpCommand, sourceCommand, wootCommand, badQualityCommand, downloadCommand, afksCommand, allAfksCommand, statusCommand, unhookCommand, dieCommand, reloadCommand, lockCommand, unlockCommand, swapCommand, popCommand, pushCommand, overplayedCommand, uservoiceCommand, whyMehCommand, skipCommand, commandsCommand, resetAfkCommand, forceSkipCommand, disconnectLookupCommand, voteRatioCommand, avgVoteRatioCommand, fortuneCommand];
 
   chatCommandDispatcher = function (chat) {
     var c, cmd, _i, _len, _results;
@@ -1759,8 +1756,8 @@
   };
 
   RastaFortuneSvc = {
-    _fortuneLen: 40,
     _fortunes: new Array(),
+    fortuneLen: 40,
     init: function () {
       this._fortunes[0] = "Everyting will come yuh way mon.";
       this._fortunes[1] = "Now is di time to try someting new.";
@@ -1803,18 +1800,10 @@
       this._fortunes[38] = "Yuh talents will be recognized and suitably rewarded.";
       this._fortunes[39] = "Don't be hasty, prosperity will knock on yuh door soon. Light up a splif and drink some irish moss.";
     },
-    checkFortuneRequest: function (chatData) {
-      if (chatData.message.indexOf("!fortune") != -1) {
-        var now = new Date();
-        var seed = now.getTime() % 0xffffffff;
-
-        seed = (0x015a4e35 * seed) % 0x7fffffff;
-        var random = (seed >> 16) % this._fortuneLen;
-
-        var fortune = this._fortunes[random];
-        API.sendChat(chatData.from + ": " + fortune);
-      }
+    fortunes: function () {
+      return this._fortunes;
     }
+    
   };
 
   initialize();
