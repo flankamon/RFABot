@@ -1564,7 +1564,7 @@
     }
 
     fortuneCommand.prototype.init = function () {
-      this.command = ['!fortune', ':8ball:'];
+      this.command = ['/fortune'];
       this.parseType = 'exact';
       return this.rankPrivelege = 'user';
     };
